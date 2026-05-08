@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>MarginMate - Kalkulator Marketplace</title>
+  <meta name="description" content="Kalkulator harga jual dan profit untuk seller Shopee dan TikTok Shop." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" aria-label="Navigasi utama">
+      <div class="brand">
+        <div class="brand-mark">M</div>
+        <div>
+          <strong>MarginMate</strong>
+          <span>Seller Profit OS</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a class="nav-item active" href="#dashboard" data-page="dashboard"><span>Dashboard</span></a>
+        <a class="nav-item" href="#calculator" data-page="calculator"><span>Kalkulator</span></a>
+        <a class="nav-item" href="#fees" data-page="fees"><span>Data Biaya Admin</span></a>
+        <a class="nav-item" href="#history" data-page="history"><span>Riwayat</span></a>
+        <a class="nav-item" href="#insights" data-page="insights"><span>Insight</span></a>
+        <a class="nav-item" href="#settings" data-page="settings"><span>Pengaturan</span></a>
+      </nav>
+      <div class="rail-card">
+        <p class="eyebrow">Mode</p>
+        <h3>Offline ready</h3>
+        <p>Data tersimpan di browser. Cocok untuk hosting statis.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="hamburger" id="hamburger" aria-label="Buka menu">☰</button>
+        <div>
+          <p class="eyebrow">Dashboard Seller</p>
+          <h1 id="pageTitle">Kalkulator Marketplace</h1>
+        </div>
+        <div class="top-actions">
+          <button class="ghost" id="exportBtn">Export CSV</button>
+          <button class="primary" data-go="calculator">Hitung Sekarang</button>
+        </div>
+      </header>
+
+      <section class="hero page" id="dashboardPage">
+        <div class="hero-content">
+          <p class="eyebrow">Shopee + TikTok Shop</p>
+          <h2>Hitung harga jual dengan biaya admin marketplace yang bisa kamu audit.</h2>
+          <p>Masukkan modal, kategori, dan biaya tambahan. Aplikasi langsung menghitung harga jual, potongan admin, profit bersih, dan margin.</p>
+          <div class="hero-actions">
+            <button class="primary big" data-go="calculator">Mulai Kalkulasi</button>
+            <button class="soft big" data-go="fees">Lihat Database Fee</button>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="profit-ring">
+            <span id="heroMargin">0%</span>
+            <small>margin rata-rata</small>
+          </div>
+          <div class="mini-grid">
+            <div><strong id="totalCalc">0</strong><span>Total hitung</span></div>
+            <div><strong id="avgProfit">Rp0</strong><span>Rata profit</span></div>
+            <div><strong id="bestPlatform">-</strong><span>Platform unggul</span></div>
+            <div><strong id="savedFees">Rp0</strong><span>Estimasi potongan</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats page-only-dashboard">
+        <article class="stat-card"><span>Estimasi omzet</span><strong id="grossRevenue">Rp0</strong><small>Dari riwayat tersimpan</small></article>
+        <article class="stat-card"><span>Profit bersih</span><strong id="netProfitTotal">Rp0</strong><small>Sesudah potongan</small></article>
+        <article class="stat-card"><span>Rata biaya admin</span><strong id="avgFeeRate">0%</strong><small>Shopee/TikTok</small></article>
+        <article class="stat-card"><span>Riwayat terakhir</span><strong id="lastCalc">Belum ada</strong><small>Update lokal</small></article>
+      </section>
+
+      <section class="content-grid page" id="calculatorPage" hidden>
+        <form class="card calc-card" id="calcForm">
+          <div class="section-head">
+            <div><p class="eyebrow">Input Produk</p><h2>Kalkulator Harga Jual</h2></div>
+            <button type="button" class="ghost" id="resetBtn">Reset</button>
+          </div>
+          <div class="form-grid">
+            <label>Nama produk<input id="productName" placeholder="Contoh: Hoodie Oversize" required /></label>
+            <label>Marketplace<select id="marketplace"></select></label>
+            <label>Status toko<select id="storeType"></select></label>
+            <label>Kategori<select id="category"></select></label>
+            <label>Modal produk<input id="cost" type="number" min="0" value="50000" /></label>
+            <label>Target profit<input id="targetProfit" type="number" min="0" value="25000" /></label>
+            <label>Diskon seller<input id="sellerDiscount" type="number" min="0" value="0" /></label>
+            <label>Biaya packing<input id="packing" type="number" min="0" value="2000" /></label>
+            <label>Iklan / ads<input id="ads" type="number" min="0" value="0" /></label>
+            <label>Affiliate %<input id="affiliate" type="number" min="0" step="0.1" value="0" /></label>
+            <label class="check-row"><input id="freeShipping" type="checkbox" /> Ikut program gratis ongkir / promo platform</label>
+            <label class="check-row"><input id="preOrder" type="checkbox" /> Produk pre-order</label>
+          </div>
+          <button class="primary full" type="submit">Hitung & Simpan</button>
+        </form>
+
+        <aside class="result-card card">
+          <p class="eyebrow">Hasil Real-time</p>
+          <h2 id="resultPrice">Rp0</h2>
+          <p class="muted">Rekomendasi harga jual minimum</p>
+          <div class="breakdown" id="breakdown"></div>
+          <div class="score-box">
+            <span>Margin bersih</span>
+            <strong id="resultMargin">0%</strong>
+          </div>
+          <p class="note">Catatan: tarif marketplace sering berubah. Pastikan validasi di Seller Center sebelum keputusan final.</p>
+        </aside>
+      </section>
+
+      <section class="page" id="feesPage" hidden>
+        <div class="section-head">
+          <div><p class="eyebrow">Database Fee</p><h2>Biaya Admin Shopee & TikTok Shop</h2></div>
+          <input class="search" id="feeSearch" placeholder="Cari kategori..." />
+        </div>
+        <div class="fee-tabs">
+          <button class="tab active" data-fee-tab="all">Semua</button>
+          <button class="tab" data-fee-tab="shopee">Shopee</button>
+          <button class="tab" data-fee-tab="tiktok">TikTok Shop</button>
+        </div>
+        <div class="table-wrap card">
+          <table>
+            <thead><tr><th>Marketplace</th><th>Status</th><th>Kategori</th><th>Admin</th><th>Tambahan</th><th>Catatan</th></tr></thead>
+            <tbody id="feeRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="historyPage" hidden>
+        <div class="section-head">
+          <div><p class="eyebrow">Riwayat</p><h2>Perhitungan Tersimpan</h2></div>
+          <button class="danger" id="clearHistory">Hapus Semua</button>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </section>
+
+      <section class="page" id="insightsPage" hidden>
+        <div class="section-head"><div><p class="eyebrow">Insight</p><h2>Ringkasan Strategi Margin</h2></div></div>
+        <div class="insight-grid">
+          <article class="card"><h3>Bandingkan platform</h3><p>Gunakan kategori yang sama di Shopee dan TikTok Shop untuk melihat platform mana yang memberikan profit lebih baik.</p></article>
+          <article class="card"><h3>Waspadai biaya berlapis</h3><p>Program gratis ongkir, affiliate, iklan, dan pre-order dapat membuat potongan total naik signifikan.</p></article>
+          <article class="card"><h3>Update berkala</h3><p>Simpan tarif terbaru dari Seller Center ke file app.js jika ada perubahan resmi.</p></article>
+        </div>
+      </section>
+
+      <section class="page" id="settingsPage" hidden>
+        <div class="card settings-card">
+          <p class="eyebrow">Pengaturan</p>
+          <h2>Branding Toko</h2>
+          <label>Nama brand<input id="brandName" placeholder="MarginMate" /></label>
+          <label>Nama pengguna<input id="ownerName" placeholder="Seller" /></label>
+          <button class="primary" id="saveSettings">Simpan Pengaturan</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
